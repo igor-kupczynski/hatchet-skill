@@ -14,6 +14,9 @@ Install this plugin using the Claude Code marketplace:
 
 ```
 /plugin marketplace add igor-kupczynski/hatchet-skill
+```
+
+```
 /plugin install hatchet@hatchet-skill
 ```
 
