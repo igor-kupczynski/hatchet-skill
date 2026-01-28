@@ -17,8 +17,6 @@ Hatchet is a platform for background tasks and durable execution built on Postgr
 | Compliance | SOC 2, HIPAA (Enterprise) | Your responsibility |
 | TLS | Always enabled | Optional |
 
-Start with Cloud for prototyping, self-host for production control. See [references/sdk-setup.md](references/sdk-setup.md) for installation.
-
 ## Simple Task Pattern
 
 **Python:**
