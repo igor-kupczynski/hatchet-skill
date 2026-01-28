@@ -2,6 +2,8 @@
 
 A Claude Code plugin that provides expert assistance for building and debugging [Hatchet](https://hatchet.run) workflows.
 
+> **Note:** This is a community plugin, not affiliated with or endorsed by Hatchet or Anthropic.
+
 ## What is Hatchet?
 
 Hatchet is a platform for background tasks and durable execution built on PostgreSQL. You write tasks in Python, TypeScript, or Go and run them on workers in your infrastructure.
