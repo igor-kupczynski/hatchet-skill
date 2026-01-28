@@ -20,6 +20,8 @@ Install this plugin using the Claude Code marketplace:
 /plugin install hatchet@hatchet-skill
 ```
 
+Restart `claude` and verify the skill is present in `/skills`.
+
 ## What This Skill Helps With
 
 - Setting up Hatchet SDK (Python, TypeScript, Go)
