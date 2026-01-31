@@ -238,22 +238,6 @@ async def good_task(input, ctx: DurableContext):
     data = await ctx.aio.run_child(fetch_data, input)  # Spawned as child
 ```
 
-### Missing Async in Python
-
-**Wrong:**
-```python
-@workflow.task(parents=[step1])
-def step2(input, ctx):
-    out = ctx.task_output(step1)  # May not work properly
-```
-
-**Right (for parent access):**
-```python
-@workflow.task(parents=[step1])
-async def step2(input, ctx):
-    out = ctx.task_output(step1)  # Works correctly
-```
-
 ### Forgetting to Start Worker
 
 Tasks won't run without workers. Ensure worker is started:

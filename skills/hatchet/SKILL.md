@@ -7,15 +7,16 @@ version: 1.0.0
 # Hatchet Workflow Development
 
 Hatchet is a platform for background tasks and durable execution built on PostgreSQL. You write tasks in Python, TypeScript, or Go and run them on workers in your infrastructure.
+Use V1 SDKs and patterns; V0 compatibility has ended.
 
 ## Cloud vs Self-Hosted
 
 | Aspect | Hatchet Cloud | Self-Hosted |
 |--------|---------------|-------------|
 | Setup | Sign up, get token | Docker + PostgreSQL |
-| Pricing | Free tier to Enterprise | Free (MIT license) |
-| Compliance | SOC 2, HIPAA (Enterprise) | Your responsibility |
-| TLS | Always enabled | Optional |
+| Endpoint | Managed (cloud.onhatchet.run) | Your host/port |
+| Auth | API token from dashboard | API token from CLI |
+| TLS | Managed | Configure TLS (or set `HATCHET_CLIENT_TLS_STRATEGY=none` for local dev) |
 
 ## Simple Task Pattern
 
@@ -37,16 +38,16 @@ worker = hatchet.worker("my-worker", workflows=[simple_task])
 worker.start()
 ```
 
-**TypeScript:**
+**TypeScript (V1):**
 ```typescript
-import { HatchetClient } from '@hatchet/v1';
+import { HatchetClient } from '@hatchet-dev/typescript-sdk/v1';
 
 const hatchet = HatchetClient.init();
 
 export const simpleTask = hatchet.task({
   name: 'simple-task',
-  fn: (input: { Message: string }) => ({
-    result: input.Message.toLowerCase(),
+  fn: (input: { message: string }) => ({
+    result: input.message.toLowerCase(),
   }),
 });
 
@@ -127,8 +128,8 @@ cron_workflow = hatchet.workflow(
     on_crons=["0 9 * * *"],  # Daily at 9am
 )
 
-# One-time scheduled run
-schedule = my_workflow.schedule(datetime(2025, 3, 14, 15, 9, 26))
+# One-time scheduled run (future time)
+schedule = my_workflow.schedule(datetime.utcnow() + timedelta(minutes=10))
 
 # Manage schedules
 hatchet.scheduled.list()
@@ -161,6 +162,8 @@ workflow = hatchet.workflow(
 def rate_limited_task(input, ctx):
     pass
 ```
+Note: concurrency expressions use CEL (e.g. `input.user_id`) and must be deterministic.
+V1 supports multiple concurrency strategies (arrays) at workflow/task level.
 
 ## Durable Execution
 
@@ -193,6 +196,19 @@ result = my_workflow.run({"message": "hello"})
 run_ref = my_workflow.run_no_wait({"message": "hello"})
 ```
 
+## Run Management (Ops)
+
+```python
+# List recent runs
+runs = hatchet.runs.list(limit=10)
+
+# Cancel a run
+hatchet.runs.cancel(run_id="run_123")
+
+# Replay a run
+hatchet.runs.replay(run_id="run_123")
+```
+
 ## Debugging Checklist
 
 1. **Worker not connecting**: Check `HATCHET_CLIENT_TOKEN` is set
@@ -206,4 +222,4 @@ See [references/troubleshooting.md](references/troubleshooting.md) for detailed 
 ## Resources
 
 - Docs: https://docs.hatchet.run
-- Dashboard: https://cloud.hatchet.run (Cloud) or http://localhost:8080 (self-hosted)
+- Dashboard: https://cloud.onhatchet.run (Cloud) or http://localhost:8080 (self-hosted)

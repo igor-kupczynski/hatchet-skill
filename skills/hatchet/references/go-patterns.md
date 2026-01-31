@@ -87,6 +87,7 @@ package main
 import (
     "context"
     "fmt"
+    "strings"
 
     "github.com/hatchet-dev/hatchet/sdks/go"
     "github.com/hatchet-dev/hatchet/sdks/go/pkg/factory"

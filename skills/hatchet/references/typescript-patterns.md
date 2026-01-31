@@ -3,7 +3,7 @@
 ## Type-Safe Workflow Definition
 
 ```typescript
-import { HatchetClient } from '@hatchet/v1';
+import { HatchetClient } from '@hatchet-dev/typescript-sdk/v1';
 
 const hatchet = HatchetClient.init();
 
@@ -31,7 +31,7 @@ export const processData = hatchet.task<ProcessInput, ProcessOutput>({
 ## DAG Workflow with Dependencies
 
 ```typescript
-import { HatchetClient } from '@hatchet/v1';
+import { HatchetClient } from '@hatchet-dev/typescript-sdk/v1';
 
 const hatchet = HatchetClient.init();
 
@@ -213,7 +213,7 @@ const simpleTask = hatchet.task({
   }),
 });
 
-// Run directly
+// Run directly (ensure a worker has registered this task first)
 const result = await simpleTask.run({ message: 'HELLO' });
 console.log(result); // { result: 'hello' }
 ```

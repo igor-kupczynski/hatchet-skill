@@ -7,11 +7,11 @@
 pip install hatchet-sdk
 ```
 
-**TypeScript:**
+**TypeScript (V1):**
 ```bash
-npm install @hatchet/v1
+npm install @hatchet-dev/typescript-sdk
 # or
-pnpm add @hatchet/v1
+pnpm add @hatchet-dev/typescript-sdk
 ```
 
 **Go:**
@@ -26,14 +26,26 @@ Required for all deployments:
 export HATCHET_CLIENT_TOKEN="your-api-token"
 ```
 
-For self-hosted without TLS:
+For self-hosted endpoints (match your server config):
+```bash
+# gRPC host/port
+export HATCHET_CLIENT_HOST_PORT="localhost:7077"
+
+# API host/port (TypeScript SDK)
+export HATCHET_CLIENT_API_URL="http://localhost:8080"
+
+# API host/port (Go SDK)
+export HATCHET_CLIENT_SERVER_URL="http://localhost:8080"
+```
+
+For self-hosted without TLS (dev only):
 ```bash
 export HATCHET_CLIENT_TLS_STRATEGY=none
 ```
 
 ## Hatchet Cloud Quickstart
 
-1. Sign up at https://cloud.hatchet.run
+1. Sign up at https://cloud.onhatchet.run
 2. Create a new tenant (or use default)
 3. Go to **Settings > API Tokens**
 4. Generate a token and set `HATCHET_CLIENT_TOKEN`
@@ -76,18 +88,12 @@ hatchet = Hatchet(
 )
 ```
 
-**TypeScript:**
+**TypeScript (V1):**
 ```typescript
-import { HatchetClient } from '@hatchet/v1';
+import { HatchetClient } from '@hatchet-dev/typescript-sdk/v1';
 
 // Uses HATCHET_CLIENT_TOKEN from environment
 const hatchet = HatchetClient.init();
-
-// Or explicit config
-const hatchet = HatchetClient.init({
-  token: 'your-token',
-  hostPort: 'localhost:7077',
-});
 ```
 
 **Go:**
